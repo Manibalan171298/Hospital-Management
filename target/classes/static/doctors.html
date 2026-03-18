@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors | CarePulse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Extra styles for doctor cards */
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .doctor-card {
+            background: var(--surface-color);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .doctor-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 3px solid #E0F2FE;
+        }
+
+        .doctor-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.3rem;
+        }
+
+        .doctor-specialty {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: #E0F2FE;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+        }
+
+        .doctor-info {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .info-item i {
+            margin-right: 5px;
+            color: var(--secondary-color);
+        }
+
+        .doc-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--border-color);
+            background: transparent;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: var(--text-muted);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-heart-pulse"></i>
+                <span>CarePulse</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="/" class="nav-item"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="/patients.html" class="nav-item"><i class="fa-solid fa-user-injured"></i> Patients</a>
+                <a href="/doctors.html" class="nav-item active"><i class="fa-solid fa-user-doctor"></i> Doctors</a>
+                <a href="/appointments.html" class="nav-item"><i class="fa-solid fa-calendar-check"></i>
+                    Appointments</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-gear"></i> Settings</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-bar">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" placeholder="Search doctors...">
+                </div>
+                <div class="user-profile">
+                    <div class="notif"><i class="fa-regular fa-bell"></i></div>
+                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=0D8ABC&color=fff" alt="Profile">
+                </div>
+            </header>
+
+            <div class="content-area">
+                <div class="page-header">
+                    <h1>Medical Specialists</h1>
+                    <button class="btn-primary" id="addDoctorBtn"><i class="fa-solid fa-user-plus"></i> Add
+                        Doctor</button>
+                </div>
+
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="icon-box blue"><i class="fa-solid fa-user-doctor"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Doctors</h3>
+                            <p class="stat-value" id="totalDoctors">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon-box green"><i class="fa-solid fa-circle-check"></i></div>
+                        <div class="stat-info">
+                            <h3>Available</h3>
+                            <p class="stat-value">5</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doctors Grid -->
+                <div class="doctors-grid" id="doctorsGrid">
+                    <!-- Cards will be injected here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Doctor Modal -->
+    <div class="modal-overlay" id="doctorModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Add New Specialist</h2>
+                <button class="close-btn" id="closeModalBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="addDoctorForm">
+                    <div class="form-group">
+                        <label>Doctor Name</label>
+                        <input type="text" id="dName" required placeholder="Dr. Jane Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Specialization</label>
+                        <input type="text" id="dSpec" required placeholder="e.g. Cardiologist">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Experience (Yrs)</label>
+                            <input type="number" id="dExp" required placeholder="5">
+                        </div>
+                        <div class="form-group">
+                            <label>Availability</label>
+                            <select id="dStatus">
+                                <option value="Available">Available</option>
+                                <option value="Busy">Busy</option>
+                                <option value="On Leave">On Leave</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">Add Doctor</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/doctors.js"></script>
+</body>
+
+</html>

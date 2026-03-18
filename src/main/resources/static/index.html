@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarePulse | Hospital Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-heart-pulse"></i>
+                <span>CarePulse</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                <a href="/patients.html" class="nav-item"><i class="fa-solid fa-user-injured"></i> Patients</a>
+                <a href="/doctors.html" class="nav-item"><i class="fa-solid fa-user-doctor"></i> Doctors</a>
+                <a href="/appointments.html" class="nav-item"><i class="fa-solid fa-calendar-check"></i>
+                    Appointments</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-gear"></i> Settings</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-bar">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search patients, doctors...">
+                    <div id="searchResults" class="search-dropdown"></div>
+                </div>
+                <div class="user-profile">
+                    <div class="notif"><i class="fa-regular fa-bell"></i></div>
+                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=0D8ABC&color=fff" alt="Profile">
+                </div>
+            </header>
+
+            <div class="content-area">
+                <div class="page-header">
+                    <h1>Patient Overview</h1>
+                    <button class="btn-primary" id="addPatientBtn"><i class="fa-solid fa-plus"></i> Add New
+                        Patient</button>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="icon-box blue"><i class="fa-solid fa-bed-pulse"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Patients</h3>
+                            <p class="stat-value" id="totalPatients">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon-box green"><i class="fa-solid fa-user-clock"></i></div>
+                        <div class="stat-info">
+                            <h3>Admitted</h3>
+                            <p class="stat-value">12</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="icon-box orange"><i class="fa-solid fa-star-of-life"></i></div>
+                        <div class="stat-info">
+                            <h3>Critical</h3>
+                            <p class="stat-value">3</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Patient List -->
+                <div class="recent-patients">
+                    <div class="section-header">
+                        <h2>Recent Patients</h2>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Gender</th>
+                                    <th>Disease/Condition</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patientTableBody">
+                                <!-- Data will be injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Patient Modal -->
+    <div class="modal-overlay" id="patientModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Add New Patient</h2>
+                <button class="close-btn" id="closeModalBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="addPatientForm">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="pName" required placeholder="e.g. John Doe">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Age</label>
+                            <input type="number" id="pAge" required placeholder="e.g. 30">
+                        </div>
+                        <div class="form-group">
+                            <label>Gender</label>
+                            <select id="pGender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Disease / Condition</label>
+                        <input type="text" id="pDisease" required placeholder="e.g. Flu">
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Number</label>
+                        <input type="text" id="pContact" placeholder="e.g. +1 234 567 890">
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="pStatus">
+                            <option value="Admitted">Admitted</option>
+                            <option value="Discharged">Discharged</option>
+                            <option value="Under Observation">Under Observation</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-submit">Save Patient</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
